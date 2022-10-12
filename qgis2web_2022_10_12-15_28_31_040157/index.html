@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/ASUNCION_SANISIDRO_1.js"></script>
+        <script src="data/ASUNCIONARSURVEYS_2.js"></script>
+        <script src="data/geotag3_3.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+            highlightLayer.openPopup();
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        })
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+        }
+        map.createPane('pane_GoogleTerrainHybrid_0');
+        map.getPane('pane_GoogleTerrainHybrid_0').style.zIndex = 400;
+        var layer_GoogleTerrainHybrid_0 = L.tileLayer('https://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleTerrainHybrid_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+        });
+        layer_GoogleTerrainHybrid_0;
+        map.addLayer(layer_GoogleTerrainHybrid_0);
+        function pop_ASUNCION_SANISIDRO_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ID2'] !== null ? autolinker.link(feature.properties['ID2'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PROVINCE'] !== null ? autolinker.link(feature.properties['PROVINCE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['MUNICIPALI'] !== null ? autolinker.link(feature.properties['MUNICIPALI'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['REGION'] !== null ? autolinker.link(feature.properties['REGION'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BASISREFER'] !== null ? autolinker.link(feature.properties['BASISREFER'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AreaHas'] !== null ? autolinker.link(feature.properties['AreaHas'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_ASUNCION_SANISIDRO_1_0(feature) {
+            switch(String(feature.properties['MUNICIPALI'])) {
+                case 'ASUNCION':
+                    return {
+                pane: 'pane_ASUNCION_SANISIDRO_1',
+                opacity: 1,
+                color: 'rgba(122,4,3,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'SAN ISIDRO':
+                    return {
+                pane: 'pane_ASUNCION_SANISIDRO_1',
+                opacity: 1,
+                color: 'rgba(48,18,59,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_ASUNCION_SANISIDRO_1');
+        map.getPane('pane_ASUNCION_SANISIDRO_1').style.zIndex = 401;
+        map.getPane('pane_ASUNCION_SANISIDRO_1').style['mix-blend-mode'] = 'normal';
+        var layer_ASUNCION_SANISIDRO_1 = new L.geoJson(json_ASUNCION_SANISIDRO_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_ASUNCION_SANISIDRO_1',
+            layerName: 'layer_ASUNCION_SANISIDRO_1',
+            pane: 'pane_ASUNCION_SANISIDRO_1',
+            onEachFeature: pop_ASUNCION_SANISIDRO_1,
+            style: style_ASUNCION_SANISIDRO_1_0,
+        });
+        bounds_group.addLayer(layer_ASUNCION_SANISIDRO_1);
+        map.addLayer(layer_ASUNCION_SANISIDRO_1);
+        function pop_ASUNCIONARSURVEYS_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ParcelId'] !== null ? autolinker.link(feature.properties['ParcelId'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BarangayNa'] !== null ? autolinker.link(feature.properties['BarangayNa'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SurveyPlan'] !== null ? autolinker.link(feature.properties['SurveyPlan'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['LotNumber'] !== null ? autolinker.link(feature.properties['LotNumber'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Area'] !== null ? autolinker.link(feature.properties['Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_ASUNCIONARSURVEYS_2_0() {
+            return {
+                pane: 'pane_ASUNCIONARSURVEYS_2',
+                opacity: 1,
+                color: 'rgba(219,115,233,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_ASUNCIONARSURVEYS_2');
+        map.getPane('pane_ASUNCIONARSURVEYS_2').style.zIndex = 402;
+        map.getPane('pane_ASUNCIONARSURVEYS_2').style['mix-blend-mode'] = 'normal';
+        var layer_ASUNCIONARSURVEYS_2 = new L.geoJson(json_ASUNCIONARSURVEYS_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_ASUNCIONARSURVEYS_2',
+            layerName: 'layer_ASUNCIONARSURVEYS_2',
+            pane: 'pane_ASUNCIONARSURVEYS_2',
+            onEachFeature: pop_ASUNCIONARSURVEYS_2,
+            style: style_ASUNCIONARSURVEYS_2_0,
+        });
+        bounds_group.addLayer(layer_ASUNCIONARSURVEYS_2);
+        map.addLayer(layer_ASUNCIONARSURVEYS_2);
+        function pop_geotag3_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['folder'] !== null ? '<img src="images/' + String(feature.properties['folder']).replace(/[\\\/:]/g, '_').trim() + '">' : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_geotag3_3_0() {
+            return {
+                pane: 'pane_geotag3_3',
+                radius: 8.0,
+                opacity: 1,
+                color: 'rgba(128,17,25,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(219,30,42,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_geotag3_3');
+        map.getPane('pane_geotag3_3').style.zIndex = 403;
+        map.getPane('pane_geotag3_3').style['mix-blend-mode'] = 'normal';
+        var layer_geotag3_3 = new L.geoJson(json_geotag3_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_geotag3_3',
+            layerName: 'layer_geotag3_3',
+            pane: 'pane_geotag3_3',
+            onEachFeature: pop_geotag3_3,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_geotag3_3_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_geotag3_3);
+        map.addLayer(layer_geotag3_3);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/geotag3_3.png" /> geotag3': layer_geotag3_3,'<img src="legend/ASUNCIONARSURVEYS_2.png" /> ASUNCION AR SURVEYS': layer_ASUNCIONARSURVEYS_2,'ASUNCION_SAN ISIDRO<br /><table><tr><td style="text-align: center;"><img src="legend/ASUNCION_SANISIDRO_1_ASUNCION0.png" /></td><td>ASUNCION</td></tr><tr><td style="text-align: center;"><img src="legend/ASUNCION_SANISIDRO_1_SANISIDRO1.png" /></td><td>SAN ISIDRO</td></tr></table>': layer_ASUNCION_SANISIDRO_1,"Google Terrain Hybrid": layer_GoogleTerrainHybrid_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_ASUNCION_SANISIDRO_1.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['MUNICIPALI'] !== null?String('<div style="color: #000000; font-size: 10pt; font-weight: bold; font-family: \'Arial Narrow\', sans-serif;">' + layer.feature.properties['MUNICIPALI']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_ASUNCION_SANISIDRO_1'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        resetLabels([layer_ASUNCION_SANISIDRO_1,layer_ASUNCIONARSURVEYS_2]);
+        map.on("zoomend", function(){
+            resetLabels([layer_ASUNCION_SANISIDRO_1,layer_ASUNCIONARSURVEYS_2]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_ASUNCION_SANISIDRO_1,layer_ASUNCIONARSURVEYS_2]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_ASUNCION_SANISIDRO_1,layer_ASUNCIONARSURVEYS_2]);
+        });
+        </script>
+    </body>
+</html>
